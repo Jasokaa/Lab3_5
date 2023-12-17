@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+using System.Xml.Serialization;
 
 namespace DAL;
 public interface IEntity
@@ -6,16 +6,16 @@ public interface IEntity
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
 }
-[JsonDerivedType(typeof(Student), typeDiscriminator: "Student")]
-[JsonDerivedType(typeof(Baker), typeDiscriminator: "Baker")]
-[JsonDerivedType(typeof(Entrepreneur), typeDiscriminator: "Entrepreneur")]
+[Serializable]
+[XmlInclude(typeof(Student))]
+[XmlInclude(typeof(Baker))]
+[XmlInclude(typeof(Entrepreneur))]
 public abstract class Entity:IEntity
 {
     protected string? firstName;
     protected string? lastName;
     public string? FirstName { get => firstName; set => firstName = value; }
     public string? LastName { get => lastName; set => lastName = value; }
-    [JsonConstructor]
     protected Entity(string? FirstNameInput, string? LastNameInput)
     {
         firstName = FirstNameInput;
@@ -24,6 +24,7 @@ public abstract class Entity:IEntity
 
     protected Entity() {}
 }
+[Serializable]
 public class Student : Entity, IStudy
 {
     private int course;
@@ -48,7 +49,6 @@ public class Student : Entity, IStudy
         get => birthDate;
         set => birthDate = value;
     }
-    [JsonConstructor]
     public Student(string? FirstName, string? LastName, int Course, string? StudentCard, string? BirthDate) : 
         base(FirstName, LastName)
     {
@@ -90,10 +90,10 @@ public class Student : Entity, IStudy
         return base.GetHashCode();
     }
 }
+[Serializable]
 public class Baker : Entity, IBake
 {
     public Baker(){}
-    [JsonConstructor]
     public Baker(string? FirstName, string? LastName):base(FirstName, LastName){}
     public override string ToString()
     {
@@ -106,10 +106,10 @@ public class Baker : Entity, IBake
         return firstName + " "+ lastName + " baked bread";
     }
 }
+[Serializable]
 public class Entrepreneur : Entity, IWork
 {
     public Entrepreneur(){}
-    [JsonConstructor]
     public Entrepreneur(string? FirstName, string? LastName):base(FirstName, LastName){}
     public override string ToString()
     {

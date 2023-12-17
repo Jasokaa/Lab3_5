@@ -6,7 +6,7 @@ public class DBService<T>
     {
         try
         {
-            JSONProvider<T> b = new JSONProvider<T>();
+            XMLProvider<T> b = new XMLProvider<T>();
             b.Write(list);
         }
         catch (Exception)
@@ -19,8 +19,8 @@ public class DBService<T>
         List<T>? list = null;
         try
         {
-            JSONProvider<T> a = new JSONProvider<T>();
-            list = a.Read();
+            XMLProvider<T> b = new XMLProvider<T>();
+            list = b.Read();
         }
         catch (Exception)
         {
@@ -32,8 +32,8 @@ public class DBService<T>
     {
         try
         {
-            JSONProvider<T> a = new JSONProvider<T>();
-            a.DeleteAllFromFile();
+            XMLProvider<T> b = new XMLProvider<T>();
+            b.DeleteAllFromFile();
         }
         catch (Exception)
         {
